@@ -2,9 +2,6 @@ package com.ittraining.studentmanagement.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ittraining.studentmanagement.entities.Department;
 
 @Controller
 //rest -home return
@@ -21,5 +18,9 @@ return "department";
 @GetMapping("/about")
 public String getAboutPage() {
 return "about";
+}
+@GetMapping("/student")
+public String getstudentPage() {
+return "student";
 }
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/header :: header-css"/>
+	<h1>Student Management</h1>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"/>
+	
+	<form>
+		<div id="successMessage" style="color: green;"></div>
+<div class="col-md-4">
+	<div class="form-group">
+	<input type="text" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control" />
+</div>
+<div class="form-group">
+	<input type="text" name="lastName" id="lastName" placeholder="Enter lastName Name" class="form-control" />
+	</div>
+<div class="form-group">
+	<input type="text" name="address" id="address" placeholder="Enter address" class="form-control" />
+	
+</div>
+</div>
+<label for="sel1">Select Department Name (select):</label>
+<select id="select">
+<option selected="selected">Plz select one</option>
+</select>
+
+
+</form>
+<button type="Submit" onclick="Save()" class="btn btn-primary" style="width: 100px; margin-left: 10px;">Save</button>
+<button type="Submit" onclick="Save()" class="btn btn-warning" style="width: 100px; margin-right: 10px;">Cancel</button>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+$.ajax({
+	url:"/departments/names",
+	type:"GET",
+	success:function(response){
+		$.each(response,function(i,item){
+			$("#select").append('<option value="item.value()">'+item+'</option>');
+		})
+	}
+
+})
+})
+	function Save(){
+		var student={};
+		student.firstName=$('#firstName').val();
+		student.lastName=$('#lastName').val();
+		student.address=$('#address').val();
+		student.departmentName=$('#select').find(':selected').text();
+		$.ajax({
+			url:"/students",
+			type:"POST",
+			contentType: 'application/json',
+			data:JSON.stringify(student),
+			
+			success:function(response){
+				$('#successMessage').html('<h1>Saved</h1>');
+				
+			},
+			errror: function(response){
+				alert('failed')
+			}
+			})
+
+	}
+
+
+
+
+</script>
+
+</body>
+</html>
